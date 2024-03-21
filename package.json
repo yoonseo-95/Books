@@ -2,11 +2,11 @@
   "name": "book",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://yoonseo-95.github.io/books-app/",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
     "@types/node": "^16.18.91",
     "@types/react": "^18.2.67",
     "@types/react-dom": "^18.2.22",
@@ -29,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -45,7 +47,9 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
+    "@types/jest": "^29.5.12",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-config-react-app": "6"
+    "eslint-config-react-app": "6",
+    "gh-pages": "^6.1.1"
   }
 }
