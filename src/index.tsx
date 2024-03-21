@@ -11,7 +11,7 @@ import { store } from './redux/store/store';
 import BookDetail from './components/BookDetail';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('wrap') as HTMLElement
 );
 
 root.render(
