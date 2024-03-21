@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+* {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'NanumSquareNeo-Variable';
+  overflow-x: hidden;
+}
+
+h1,h2,h3,p,span {margin: 0;}
+a {
+  text-decoration: none;
+  outline: 0;
+  color: inherit;
+}
+
+body {
+  background:#f8f3ed;
+}
+ul, li, ol{
+  list-style:none;
+}
+body::-webkit-scrollbar {
+  width: 10px;  /* 스크롤바의 너비 */
+}
+
+body::-webkit-scrollbar-thumb {
+  height: 100px;
+  background: #797979; /* 스크롤바의 색상 */
+  
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, .1);  /*스크롤바 뒷 배경 색상*/
+}
