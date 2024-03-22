@@ -6,14 +6,19 @@ export const getSearchBooks = createAsyncThunk(
   'books/getSearchBooks',
   async ({ query, page, itemsPerPage }: { query: string; page: number; itemsPerPage:number; }, {rejectWithValue }) => {
 
-    const API = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books/v1/search/book.json" : "/v1/search/book.json";
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+    const URL = `${PROXY}/v1/search/book.json`;
 
     try {
-      const response = await axios.get(API, {
+      const response = await axios.get(URL, {
         params: {
           query,
           display: itemsPerPage * page,
           start: (page -1) * itemsPerPage + 1,
+        },
+        headers: {
+          "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
+          "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET
         }
       });
 

@@ -12,18 +12,23 @@ export const getMainBooks = createAsyncThunk<MainBooks[], QueryType>(
   'mainBooks/getMainBooks',
   async ({ query }, { rejectWithValue }) => {
     
-    const API = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books/v1/search/book.json" : "/v1/search/book.json";
-
+    const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
+    const URL = `${PROXY}/v1/search/book.json`;
+    
     try {
       const responses:any[] = [];
 
       for(const item of query) {
-        const response = await axios.get(API, {
+        const response = await axios.get(URL, {
           params: {
             query: item,
             display: 10,
             start: 1,
             sort: 'sim'
+          },
+          headers: {
+            "X-Naver-Client-Id": process.env.REACT_APP_CLIENT_ID,
+            "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET
           }
         });
         responses.push(response.data.items);
