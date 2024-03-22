@@ -12,14 +12,13 @@ export const getRcmdBooks = createAsyncThunk<PickBooks[], QueryRcmdType>(
   'rcmdBooks/getRcmdBooks', 
   async ({query}, {rejectWithValue}) =>{
 
-    const PROXY = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books" : "";
-    const URL = `${PROXY}/v1/search/book.json`;
+    const API = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books/v1/search/book.json" : "/v1/search/book.json";
 
     try {
       const responses:any[] = [];
 
       for(const item of query) {
-        const response = await axios.get(URL, {
+        const response = await axios.get(API, {
           params: {
             query: item,
             display: 10,
