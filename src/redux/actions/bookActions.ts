@@ -6,7 +6,7 @@ export const getSearchBooks = createAsyncThunk(
   'books/getSearchBooks',
   async ({ query, page, itemsPerPage }: { query: string; page: number; itemsPerPage:number; }, {rejectWithValue }) => {
 
-    const PROXY = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books/" : "";
+    const PROXY = process.env.NODE_ENV === 'production' ? "https://yoonseo-95.github.io/books" : "";
     const URL = `${PROXY}/v1/search/book.json`;
 
     try {
