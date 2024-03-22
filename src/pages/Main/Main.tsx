@@ -48,6 +48,7 @@ z-index: 1;
   height: 150px;
   background: #e1dad1;
   z-index: -1;
+  left: 0;
 }
 
 @media screen and (max-width: 1200px) and (min-width: 1024px){
