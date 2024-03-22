@@ -6,6 +6,16 @@ module.exports = function (app) {
     createProxyMiddleware({
       target: "https://openapi.naver.com",
       changeOrigin: true,
+      onProxyReq: (proxyReq, req) => {
+        proxyReq.setHeader(
+          "X-Naver-Client-Id",
+          process.env.REACT_APP_CLIENT_ID
+        );
+        proxyReq.setHeader(
+          "X-Naver-Client-Secret",
+          process.env.REACT_APP_CLIENT_SECRET
+        );
+      },
     })
   );
 };

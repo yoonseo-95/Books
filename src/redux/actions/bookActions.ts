@@ -10,18 +10,12 @@ export const getSearchBooks = createAsyncThunk(
     const URL = `${PROXY}/v1/search/book.json`;
 
     try {
-      const { REACT_APP_CLIENT_ID, REACT_APP_CLIENT_SECRET } = process.env;
       const response = await axios.get(URL, {
         params: {
           query,
           display: itemsPerPage * page,
           start: (page -1) * itemsPerPage + 1,
-        },
-        headers: {
-          'X-Naver-Client-Id': REACT_APP_CLIENT_ID,
-          'X-Naver-Client-Secret': REACT_APP_CLIENT_SECRET,
-          "Accept": "application/json"
-        },
+        }
       });
 
       const {items} = response.data;
