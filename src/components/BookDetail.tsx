@@ -1,9 +1,13 @@
 import React from 'react'
-import { useSelector } from '../redux/hooks';
+import { useSelector, useDispatch } from '../redux/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { FiHeart, FiEdit3 } from "react-icons/fi";
+import { addBookmark, removeBookmark } from '../redux/reducers/bookmarkSlice';
 
+interface StyledIconProps {
+  $isBookmarked: boolean | string;
+}
 
 export default function BookDetail() {
   const {title = ""} = useParams<{title:string}>();
@@ -36,6 +40,22 @@ export default function BookDetail() {
   if(!book) {
     return <div>Book not found</div>
   } 
+
+  const dispatch = useDispatch();
+  const bookmark = useSelector((state) => state.bookmark.bookmark);
+
+  const isBookmarked = bookmark.some(b => b.title === book.title);
+
+  const toggleBookmark = () => {
+    if(isBookmarked) {
+      dispatch(removeBookmark(book.title));
+      console.log("제거됨")
+    } else {
+      dispatch(addBookmark(book));
+      console.log("추가됨")
+    }
+  }
+
   return (
     <DetailSection>
       <DetailImg>
@@ -84,7 +104,7 @@ export default function BookDetail() {
             </Link>
           </IconLi>
           <Icons>
-            <FiHeart />
+            <StyledIcon1 onClick={toggleBookmark} $isBookmarked={isBookmarked} />
           </Icons>
           <Icons>
             <Link to='/' >
@@ -289,5 +309,16 @@ margin-top: 20px;
 
 @media screen and (max-width: 768px) {
 text-align: center;
+}
+`
+const StyledIcon1 = styled(FiHeart)<StyledIconProps>`
+display: flex;
+justify-content: center;
+height: 23px;
+
+path {
+  stroke-width: 1.9px;
+  fill: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
+  color: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
 }
 `

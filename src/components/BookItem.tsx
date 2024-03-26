@@ -3,9 +3,15 @@ import { Book } from './../types/index';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FiHeart ,FiEdit3 } from "react-icons/fi";
+import { useDispatch, useSelector } from '../redux/hooks';
+import { addBookmark, removeBookmark } from '../redux/reducers/bookmarkSlice';
 
 interface BookData {
   book:Book;
+}
+
+interface StyledIconProps {
+  $isBookmarked: boolean | string;
 }
 
 const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) => {
@@ -21,6 +27,21 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
   const formatNumber = (price: string) => {
     const numericPrice = Number(price);
     return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원'
+  }
+
+  const dispatch = useDispatch();
+  const bookmark = useSelector((state) => state.bookmark.bookmark);
+
+  const isBookmarked = bookmark.some(b => b.title === book.title);
+
+  const toggleBookmark = () => {
+    if(isBookmarked) {
+      dispatch(removeBookmark(book.title));
+      console.log("제거됨")
+    } else {
+      dispatch(addBookmark(book));
+      console.log("추가됨")
+    }
   }
 
   return (
@@ -77,7 +98,7 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
           ) : (
             <>
               <OutBookBtn>
-                <OutBtn>구매하기</OutBtn>
+                <span>구매하기</span>
               </OutBookBtn>
               <OutBookBtn>
                 <IConLink to="/">
@@ -88,7 +109,7 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
           )
         } 
         <BookButton>
-          <StyledIcon1 />
+          <StyledIcon1 onClick={toggleBookmark} $isBookmarked={isBookmarked}/>
         </BookButton>
         <BookButton>
           <IConLink to='/' >
@@ -245,7 +266,7 @@ border-radius: 5px;
 transition: 0.5s;
 cursor:pointer;
 `
-const StyledIcon1 = styled(FiHeart)`
+const StyledIcon1 = styled(FiHeart)<StyledIconProps>`
 display: flex;
 justify-content: center;
 height: 23px;
@@ -253,8 +274,9 @@ padding-top: 4px;
 
 path {
   stroke-width: 2.6px;
+  fill: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
+  color: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
 }
-
 `
 const StyledIcon2 = styled(FiEdit3)`
 display: flex;
@@ -265,6 +287,4 @@ padding-top: 4px;
 path {
   stroke-width: 2.6px;
 }
-`
-const OutBtn = styled.span`
 `

@@ -9,6 +9,7 @@ import Search from './components/Search';
 import { Provider } from 'react-redux';
 import { store } from './redux/store/store';
 import BookDetail from './components/BookDetail';
+import Bookmark from './components/Bookmark';
 
 const root = ReactDOM.createRoot(
   document.getElementById('wrap') as HTMLElement
@@ -23,6 +24,7 @@ root.render(
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/detail/:title" element={<BookDetail />} />
+            <Route path="/bookmark" element={<Bookmark />} />
           </Route>
         </Routes>
       </BrowserRouter>

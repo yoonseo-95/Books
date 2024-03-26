@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { MainBooks } from "../../types";
+import { MainBooks, PickBooks } from "../../types";
 
 interface QueryType {
   query: string[];
@@ -9,6 +9,7 @@ interface QueryType {
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
 const retryDelay = (attempt: number) => 1000 * Math.pow(2, attempt);
+
 
 export const getMainBooks = createAsyncThunk<MainBooks[], QueryType>(
   'mainBooks/getMainBooks',

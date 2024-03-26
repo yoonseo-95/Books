@@ -3,6 +3,11 @@ import logo from '../../assets/image/books-logo.png';
 import styled from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom';
 import { FiHeart ,FiEdit3,FiShoppingBag  } from "react-icons/fi";
+import { useSelector } from '../../redux/hooks';
+
+interface BookmarkDivProps {
+  $show: boolean;
+}
 
 export default function Header() {
 
@@ -15,6 +20,9 @@ export default function Header() {
       navigate(`/search?query=${encodeURIComponent(searchValue.trim())}`);
     }
   }
+
+  const bookmark = useSelector((state) => state.bookmark.bookmark);
+
   return (
     <HeaderWrap>
       <HeaderWrapper>
@@ -28,7 +36,8 @@ export default function Header() {
         </HeaderSearchForm>
         <HeaderUl>
           <HeaderLI>
-            <HeaderIcons to="/"><FiHeart  /></HeaderIcons>
+            <BookmarkDiv $show={bookmark.length > 0} />
+            <HeaderIcons to="/bookmark"><FiHeart  /></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
             <HeaderIcons to="/"><FiEdit3 /></HeaderIcons>
@@ -95,6 +104,7 @@ height: 40px;
 border-radius: 100%;
 transition: 0.5s;
 overflow-y: hidden;
+position: relative;
   &:hover {
     border-radius: 100%;
     background: rgba(255,98,98,0.1);
@@ -143,4 +153,15 @@ outline: none;
   padding: 17px;
   font-size: 16px;
 }
+`
+//북마크
+const BookmarkDiv = styled.div<BookmarkDivProps>`
+width: 12px;
+height: 12px;
+border-radius: 100%;
+background: #ff1818;
+position: absolute;
+top: 7px;
+left: 4px;
+display: ${props => props.$show ? 'block' : 'none'};
 `
