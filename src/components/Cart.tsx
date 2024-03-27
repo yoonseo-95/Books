@@ -287,7 +287,9 @@ margin-bottom: 5px;
   font-size: 14px;
   height: 30px;
 }
-
+@media screen and (max-width: 320px){
+  width: 320px;
+}
 &:hover {
   background: #0F0E0E;
   border: 2px solid #0F0E0E;
@@ -344,7 +346,10 @@ width: 100px;
   display: flex;
   gap: 20px;
   align-items: center;
-}  
+} 
+@media screen and (max-width: 320px){
+  gap: 10px;
+}
 `
 const StyledIcon2 = styled(FiEdit3)`
 display: flex;

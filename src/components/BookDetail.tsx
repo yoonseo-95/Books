@@ -1,11 +1,12 @@
 import React from 'react'
-import { useSelector } from '../redux/hooks';
+import { useSelector, useDispatch} from '../redux/hooks';
 import { Link, useParams } from 'react-router-dom';
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import { FiEdit3 } from "react-icons/fi";
 import BookmarkBtn from './BookmarkBtn';
 import { formatNumber, formatPubDate } from './utils/formatUtils';
-
+import { BsCartPlusFill } from "react-icons/bs";
+import { addCart } from '../redux/reducers/bookCartSlice';
 
 export default function BookDetail() {
   const {title = ""} = useParams<{title:string}>();
@@ -28,6 +29,17 @@ export default function BookDetail() {
     return <div>Book not found</div>
   } 
 
+  
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart.cart);
+
+  const isCart = cart.some(b => b.title === book.title);
+
+  const handleAddCart = () => {
+    if(!isCart) {
+      dispatch(addCart(book))
+    }
+  }
   return (
     <DetailSection>
       <DetailImg>
@@ -70,9 +82,16 @@ export default function BookDetail() {
               </OutLi>
             )
           }
-          <IconLi>
+          {isCart && (
+            <BookModal>
+              <span><BsCartPlusFill /></span>
+              <p>장바구니에 추가되었습니다.</p>
+            </BookModal>
+            )
+          }
+          <BookButton onClick={handleAddCart}>
             장바구니
-          </IconLi>
+          </BookButton>
           <Icons>
             <BookmarkBtn book={book} />
           </Icons>
@@ -86,6 +105,17 @@ export default function BookDetail() {
     </DetailSection>
   )
 }
+const fadeInOut = keyframes`
+0{
+  opacity: 0;
+}
+50% {
+  opacity: 1;
+}
+100% {
+  opacity: 0;
+}
+`
 const DetailSection = styled.section`
 max-width: 1380px;
 height: 720px;
@@ -101,6 +131,9 @@ padding: 30px;
 @media screen and (max-width: 768px) {
 flex-wrap: wrap;
 gap: 0;
+}
+@media screen and (max-width: 600px){
+  margin-top: 61px;
 }
 `
 const DetailImg = styled.div`
@@ -227,8 +260,8 @@ gap: 20px;
 @media screen and (max-width: 768px) {
   justify-content: center;
 }
-@media screen and (max-width: 375px) {
-  flex-wrap: wrap;
+@media screen and (max-width: 320px) {
+  flex-direction: column;
 }
 `
 const Icons = styled.li`
@@ -280,5 +313,55 @@ margin-top: 20px;
 
 @media screen and (max-width: 768px) {
 text-align: center;
+}
+`
+const BookButton = styled.li`
+width: 150px;
+height: 30px;
+font-size: 15px;
+border-radius: 5px;
+text-align: center;
+line-height: 30px;
+color: #212121;
+border: 1px solid #6e6e6e;
+overflow-y: hidden;
+transition: 0.5s;
+cursor: pointer;
+
+&:hover {
+  background: #0F0E0E;
+  border: 2px solid #0F0E0E;
+  color: #fff;
+}
+`
+const BookModal = styled.div`
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 99999;
+background: rgb(255,49,49,0.8);
+width: 150px;
+height: 150px;
+border-radius: 15px;
+padding: 20px;
+box-sizing: border-box;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+animation: ${fadeInOut } 1.5s ease-in-out forwards;
+
+span {
+display: inline-block;
+color: #fff;
+font-size: 35px;
+margin-bottom: 8px;
+}
+p {
+  text-align: center;
+  color: #fff;
+  font-size: 13px;
+  line-height: 18px;
 }
 `
