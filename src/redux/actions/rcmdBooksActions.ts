@@ -6,23 +6,20 @@ interface QueryType {
   query: string[];
 }
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-
-const retryDelay = (attempt: number) => 1000 * Math.pow(2, attempt);
-
 export const getRcmdBooks = createAsyncThunk<PickBooks[], QueryType>(
-  'mainBooks/getMainBooks',
+  'rcmdBooks/getRcmdBooks',
   async ({ query }, { rejectWithValue }) => {
     
     const PROXY = window.location.hostname === 'localhost' ? '' : '/proxy';
     const URL = `${PROXY}/v1/search/book.json`;
     
-    async function ExponentialBackoff(item: string, attempt = 0): Promise<any> {
+    let allItems:any[] = [];
+    for(const item of query) {
       try {
-        const responses = await axios.get(URL, {
+        const response = await axios.get(URL, {
           params: {
             query: item,
-            display: 10,
+            display: 4,
             start: 1,
             sort: 'sim'
           },
@@ -31,35 +28,23 @@ export const getRcmdBooks = createAsyncThunk<PickBooks[], QueryType>(
             "X-Naver-Client-Secret": process.env.REACT_APP_CLIENT_SECRET
           }
         })
-        return responses;
+        allItems = allItems.concat(response.data.items);
       } catch (error: any) {
-        if(error.response?.status === 429 && attempt < 3) {
-          await delay(retryDelay(attempt));
-          return ExponentialBackoff(item, attempt + 1);
-        }
-        throw error;
+        return rejectWithValue(error.message);
       }
     }
-    try {
-      const responses: any[] = [];
-      for(const item of query) {
-        const response = await ExponentialBackoff(item);
-        response.push(response.data.items);
-      }
-      const item: PickBooks[] = [].concat(...responses).map((item: any) => ({
-        title: item.title || '',
-        link: item.link || '',
-        image: item.image || '',
-        author: item.author || '',
-        price: item.price || 0,
-        discount: item.discount || 0,
-        pubdate: item.pubdate,
-        publisher : item.publisher,
-        description : item.description
-      }));
-      return item;
-    }catch(error:any) {
-      return rejectWithValue(error.message);
-    }
+    const item: PickBooks[] = allItems.map((item: any) => ({
+      title: item.title || '',
+      link: item.link || '',
+      image: item.image || '',
+      author: item.author || '',
+      price: item.price || 0,
+      discount: item.discount || 0,
+      pubdate: item.pubdate,
+      publisher : item.publisher,
+      description : item.description
+    }));
+    return item;
+
   }
 );

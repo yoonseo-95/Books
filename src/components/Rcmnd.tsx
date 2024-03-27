@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from '../redux/hooks';
 import { styled } from 'styled-components';
 import { getRcmdBooks } from '../redux/actions/rcmdBooksActions';
 import { Link } from 'react-router-dom';
+import { formatNumber } from './utils/formatUtils';
 
 const Rcmnd:React.FC = () => {
 
@@ -17,11 +18,6 @@ const Rcmnd:React.FC = () => {
       "블랙 쇼맨과 운명의 바퀴"
     ]}))
   }, [dispatch])
-
-  const formatNumber = (price: string) => {
-    const numericPrice = Number(price);
-    return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원'
-  }
 
   return (
     <div>

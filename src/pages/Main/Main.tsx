@@ -32,8 +32,6 @@ const MainWrapper = styled.main`
 width: 100%;
 height: 100%;
 background: #f8f3ed;
-
-
 position: relative;
 z-index: 1;
 &::after {
