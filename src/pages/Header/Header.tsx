@@ -8,6 +8,9 @@ import { useSelector } from '../../redux/hooks';
 interface BookmarkDivProps {
   $show: boolean;
 }
+interface CartProps {
+  $show: boolean;
+}
 
 export default function Header() {
 
@@ -20,8 +23,8 @@ export default function Header() {
       navigate(`/search?query=${encodeURIComponent(searchValue.trim())}`);
     }
   }
-
   const bookmark = useSelector((state) => state.bookmark.bookmark);
+  const cart = useSelector((state) => state.cart.cart);
 
   return (
     <HeaderWrap>
@@ -36,14 +39,15 @@ export default function Header() {
         </HeaderSearchForm>
         <HeaderUl>
           <HeaderLI>
-            <BookmarkDiv $show={bookmark.length > 0} />
+            <BookmarkDiv $show={bookmark.length > 0}>{bookmark.length}</BookmarkDiv>
             <HeaderIcons to="/bookmark"><FiHeart  /></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
-            <HeaderIcons to="/"><FiEdit3 /></HeaderIcons>
+            <CartSpan $show={cart.length > 0}>{cart.length}</CartSpan>
+            <HeaderIcons to="/cart"><FiShoppingBag /></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
-            <HeaderIcons to="/"><FiShoppingBag /></HeaderIcons>
+          <HeaderIcons to="/"><FiEdit3 /></HeaderIcons>
           </HeaderLI>
         </HeaderUl>
       </HeaderWrapper>
@@ -163,5 +167,25 @@ background: #ff1818;
 position: absolute;
 top: 7px;
 left: 4px;
+overflow: hidden;
+color: #fff;
+text-align:center;
+font-size: 9px;
+line-height: 13px;
+display: ${props => props.$show ? 'block' : 'none'};
+`
+const CartSpan = styled.span<CartProps>`
+width: 14px;
+height: 14px;
+border-radius: 100%;
+background: #ff1818;
+position: absolute;
+top: 7px;
+left: 4px;
+overflow: hidden;
+color: #fff;
+text-align:center;
+font-size: 9px;
+line-height: 13px;
 display: ${props => props.$show ? 'block' : 'none'};
 `

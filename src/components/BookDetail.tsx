@@ -1,13 +1,11 @@
 import React from 'react'
-import { useSelector, useDispatch } from '../redux/hooks';
+import { useSelector } from '../redux/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { FiHeart, FiEdit3 } from "react-icons/fi";
-import { addBookmark, removeBookmark } from '../redux/reducers/bookmarkSlice';
+import { FiEdit3 } from "react-icons/fi";
+import BookmarkBtn from './BookmarkBtn';
+import { formatNumber, formatPubDate } from './utils/formatUtils';
 
-interface StyledIconProps {
-  $isBookmarked: boolean | string;
-}
 
 export default function BookDetail() {
   const {title = ""} = useParams<{title:string}>();
@@ -26,35 +24,9 @@ export default function BookDetail() {
 
   const book = findBookByTitle(title);
 
-  const formatPubDate = (pubdate: string): string => {
-    const year = pubdate.slice(0, 4);
-    const month = pubdate.slice(4,6);
-    const day = pubdate.slice(6, 8);
-    return `${year}.${month}.${day}`;
-  }
-  const formatNumber = (price: string) => {
-    const numericPrice = Number(price);
-    return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원'
-  }
-
   if(!book) {
     return <div>Book not found</div>
   } 
-
-  const dispatch = useDispatch();
-  const bookmark = useSelector((state) => state.bookmark.bookmark);
-
-  const isBookmarked = bookmark.some(b => b.title === book.title);
-
-  const toggleBookmark = () => {
-    if(isBookmarked) {
-      dispatch(removeBookmark(book.title));
-      console.log("제거됨")
-    } else {
-      dispatch(addBookmark(book));
-      console.log("추가됨")
-    }
-  }
 
   return (
     <DetailSection>
@@ -99,12 +71,10 @@ export default function BookDetail() {
             )
           }
           <IconLi>
-            <Link to="/">
-              장바구니
-            </Link>
+            장바구니
           </IconLi>
           <Icons>
-            <StyledIcon1 onClick={toggleBookmark} $isBookmarked={isBookmarked} />
+            <BookmarkBtn book={book} />
           </Icons>
           <Icons>
             <Link to='/' >
@@ -273,7 +243,7 @@ a {
 
 `
 const IconLi = styled.li`
-width: 100px;
+width: 150px;
 height: 30px;
 font-size: 15px;
 border-radius: 5px;
@@ -283,6 +253,7 @@ color: #212121;
 border: 1px solid #6e6e6e;
 overflow-y: hidden;
 transition: 0.5s;
+cursor: pointer;
   a {margin-top: 0;}
   &:hover {
     color: #fff;
@@ -291,7 +262,7 @@ transition: 0.5s;
   }
 `
 const OutLi = styled.li`
-width: 100px;
+width: 150px;
 height: 30px;
 cursor: pointer;
 font-size: 15px;
@@ -309,16 +280,5 @@ margin-top: 20px;
 
 @media screen and (max-width: 768px) {
 text-align: center;
-}
-`
-const StyledIcon1 = styled(FiHeart)<StyledIconProps>`
-display: flex;
-justify-content: center;
-height: 23px;
-
-path {
-  stroke-width: 1.9px;
-  fill: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
-  color: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
 }
 `

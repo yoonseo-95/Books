@@ -9,7 +9,7 @@ const initialState: BookmarkState = {
   bookmark: [],
 }
 
-export const bookmarkSlice = createSlice({
+const bookmarkSlice = createSlice({
   name: 'bookmark',
   initialState,
   reducers: {

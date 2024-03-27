@@ -5,6 +5,8 @@ import { FiEdit3 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { removeBookmark } from '../redux/reducers/bookmarkSlice';
 import { useDispatch } from '../redux/hooks';
+import { formatNumber, formatPubDate, formattedAuthors } from './utils/formatUtils';
+import { FaExclamationCircle } from "react-icons/fa";
 
 
 export default function Bookmark(){
@@ -17,24 +19,12 @@ export default function Bookmark(){
     dispatch(removeBookmark(title))
   }
 
-  const formatNumber = (price: string) => {
-    const numericPrice = Number(price);
-    return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원'
-  }
-
-  const formattedAuthors = (author:string) => {
-    return author.split('^').join(', ');
-  }
-
-  const formatPubDate = (pubdate: string): string => {
-    const year = pubdate.slice(0, 4);
-    const month = pubdate.slice(4,6);
-    const day = pubdate.slice(6, 8);
-    return `${year}.${month}.${day}`;
-  }
-
   return (
     <BookmarkUl>
+      <BookmarkTitle>찜 내역</BookmarkTitle>
+      {bookmark.length === 0 && (
+        <Not><span><FaExclamationCircle /></span>찜한 책이 없어요!</Not>
+      )}
       {bookmark.map((item, index) => (
         <BookmarkLi key={index}>
           <ImgWrap>
@@ -68,9 +58,7 @@ export default function Bookmark(){
                     </BookButtonLink>
                   </BookButton>
                   <BookButton>
-                    <IConLink to="/">
-                      장바구니
-                    </IConLink>
+                    장바구니
                   </BookButton>
                 </>
               ): item.price > "0" ? (
@@ -81,9 +69,7 @@ export default function Bookmark(){
                     </BookButtonLink>
                   </BookButton>
                   <BookButton>
-                    <IConLink to="/">
-                      장바구니
-                    </IConLink>
+                    장바구니
                   </BookButton>
                 </>
               ) : (
@@ -92,9 +78,7 @@ export default function Bookmark(){
                     <span>구매하기</span>
                   </OutBookBtn>
                   <OutBookBtn>
-                    <IConLink to="/">
                       장바구니
-                    </IConLink>
                   </OutBookBtn>
                 </>
               )
@@ -120,6 +104,37 @@ padding: 0 20px;
 padding-top: 70px;
 }
 `
+const Not = styled.li`
+text-align:center;
+padding: 80px 0;
+font-size: 18px;
+color: #a1a1a1;
+
+span {
+  display: inline-block;
+  font-size: 30px;
+  margin-bottom: 6px;
+}
+`
+const BookmarkTitle = styled.li`
+font-size: 23px;
+font-weight: bold;
+position: relative;
+height: 40px;
+overflow: hidden;
+&::after {
+  content:'';
+  width: 100%;
+  height: 2px;
+  background: #888;
+  position: absolute;
+  bottom:0;
+  left: 0;
+}
+@media screen and (max-width: 1024px){
+  text-align: center;
+}  
+` 
 const BookmarkLi = styled.li`
 width: 100%;
 display:flex;
@@ -127,6 +142,19 @@ gap: 30px;
 align-items: center;
 flex-wrap: wrap;
 margin-bottom: 45px;
+position: relative;
+padding: 40px 0;
+
+&::after {
+  display: block;
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: #dfdfdf;
+  position: absolute;
+  bottom: 0;
+}
+
 @media screen and (max-width: 768px){
   justify-content: center;
   margin-bottom: 100px;

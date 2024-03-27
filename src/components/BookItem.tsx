@@ -2,47 +2,18 @@ import React, { forwardRef } from 'react'
 import { Book } from './../types/index';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { FiHeart ,FiEdit3 } from "react-icons/fi";
-import { useDispatch, useSelector } from '../redux/hooks';
-import { addBookmark, removeBookmark } from '../redux/reducers/bookmarkSlice';
+import { FiEdit3 } from "react-icons/fi";
+import CartButton from './CartButton';
+import BookmarkBtn from './BookmarkBtn';
+import { formatNumber, formatPubDate } from './utils/formatUtils';
 
 interface BookData {
   book:Book;
 }
 
-interface StyledIconProps {
-  $isBookmarked: boolean | string;
-}
-
 const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) => {
 
   const formattedAuthors = book.author.split('^').join(', ');
-  const formatPubDate = (pubdate: string): string => {
-    const year = pubdate.slice(0, 4);
-    const month = pubdate.slice(4,6);
-    const day = pubdate.slice(6, 8);
-    return `${year}.${month}.${day}`;
-  }
-
-  const formatNumber = (price: string) => {
-    const numericPrice = Number(price);
-    return new Intl.NumberFormat('ko-KR').format(numericPrice) + '원'
-  }
-
-  const dispatch = useDispatch();
-  const bookmark = useSelector((state) => state.bookmark.bookmark);
-
-  const isBookmarked = bookmark.some(b => b.title === book.title);
-
-  const toggleBookmark = () => {
-    if(isBookmarked) {
-      dispatch(removeBookmark(book.title));
-      console.log("제거됨")
-    } else {
-      dispatch(addBookmark(book));
-      console.log("추가됨")
-    }
-  }
 
   return (
     <BookLi ref={ref}>
@@ -76,11 +47,7 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
                   구매하기
                 </BookButtonLink>
               </BookButton>
-              <BookButton>
-                <IConLink to="/">
-                  장바구니
-                </IConLink>
-              </BookButton>
+              <CartButton book={book}/>
             </>
           ): book.price > "0" ? (
             <>
@@ -89,32 +56,22 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
                   구매하기
                 </BookButtonLink>
               </BookButton>
-              <BookButton>
-                <IConLink to="/">
-                  장바구니
-                </IConLink>
-              </BookButton>
+              <CartButton book={book}/>
             </>
           ) : (
             <>
               <OutBookBtn>
                 <span>구매하기</span>
               </OutBookBtn>
-              <OutBookBtn>
-                <IConLink to="/">
-                  장바구니
-                </IConLink>
-              </OutBookBtn>
+              <CartButton book={book}/>
             </>
           )
-        } 
+        }
+        <BookmarkIcon>
+          <BookmarkBtn book={book} />
+        </BookmarkIcon>
         <BookButton>
-          <StyledIcon1 onClick={toggleBookmark} $isBookmarked={isBookmarked}/>
-        </BookButton>
-        <BookButton>
-          <IConLink to='/' >
-            <StyledIcon2 />
-          </IConLink>
+          <StyledIcon2 />
         </BookButton>
       </BookButtonUl>
     </BookLi>
@@ -222,15 +179,66 @@ display: block;
 width: 100%;
 height: 100%;
 `
-const IConLink = styled(Link)`
-display: block;
-width: 100%;
-height: 100%;
-`
 const BookButton = styled.li`
 padding: 5px;
 border: 2px solid #979797;
 color: #979797;
+font-size: 13px;
+text-align: center;
+border-radius: 5px;
+transition: 0.5s;
+cursor:pointer;
+
+@media screen and (max-width: 1024px) and (min-width:768px){
+  font-size: 12px;
+}
+@media screen and (max-width: 768px) and (min-width:425px){
+  font-size: 10px;
+  
+  &:nth-of-type(4) {
+    height: 38px !important;
+  }
+}
+&:nth-of-type(3) {
+  height: 42px;
+}
+&:nth-of-type(4) {
+  height: 42px;
+}
+
+&:hover {
+  background: #0F0E0E;
+  border: 2px solid #0F0E0E;
+  color: #fff;
+}
+`
+const BookmarkIcon = styled.li`
+padding: 5px;
+height: 42px;
+padding-top: 9px;
+font-size: 20px;
+border: 2px solid #979797;
+color: #979797;
+text-align: center;
+border-radius: 5px;
+transition: 0.5s;
+cursor:pointer;
+
+@media screen and (max-width: 768px) and (min-width:425px){
+  height: 38px;
+  padding-top: 7px;
+}
+
+&:hover {
+  background: #0F0E0E;
+  border: 2px solid #0F0E0E;
+  color: #fff;
+}
+`
+const OutBookBtn = styled.li`
+padding: 5px;
+border: 2px solid #b9b9b9;
+color: #b9b9b9;
 font-size: 13px;
 text-align: center;
 border-radius: 5px;
@@ -250,33 +258,6 @@ cursor:pointer;
   height: 42px;
 }
 
-&:hover {
-  background: #0F0E0E;
-  border: 2px solid #0F0E0E;
-  color: #fff;
-}
-`
-const OutBookBtn = styled.li`
-padding: 5px;
-border: 2px solid #b9b9b9;
-color: #b9b9b9;
-font-size: 13px;
-text-align: center;
-border-radius: 5px;
-transition: 0.5s;
-cursor:pointer;
-`
-const StyledIcon1 = styled(FiHeart)<StyledIconProps>`
-display: flex;
-justify-content: center;
-height: 23px;
-padding-top: 4px;
-
-path {
-  stroke-width: 2.6px;
-  fill: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
-  color: ${(props) => props.$isBookmarked ? "#ff1818" : "none"};
-}
 `
 const StyledIcon2 = styled(FiEdit3)`
 display: flex;

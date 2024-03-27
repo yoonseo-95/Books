@@ -10,10 +10,13 @@ import { Provider } from 'react-redux';
 import { store } from './redux/store/store';
 import BookDetail from './components/BookDetail';
 import Bookmark from './components/Bookmark';
+import Cart from './components/Cart';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('wrap') as HTMLElement
 );
+
 
 root.render(
   <React.StrictMode>
@@ -25,6 +28,7 @@ root.render(
             <Route path="/search" element={<Search />} />
             <Route path="/detail/:title" element={<BookDetail />} />
             <Route path="/bookmark" element={<Bookmark />} />
+            <Route path="/cart" element={<Cart />} />
           </Route>
         </Routes>
       </BrowserRouter>

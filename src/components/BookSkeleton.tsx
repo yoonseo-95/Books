@@ -59,60 +59,6 @@ const BookSkeleton:React.FC = () => (
         <Skeleton height={20} width={100}/>
       </ButtonWrap>
     </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
-    <SkeletonDiv>
-      <Skeleton width={200} height={240}/>
-      <Skeleton height={20} width={200} style={{ marginTop: "20px" }}/>
-      <Skeleton height={20} width={150} style={{ marginBottom: '10px', marginTop: "10px" }}/>
-      <ButtonWrap>
-        <Skeleton height={20} width={100}/>
-        <Skeleton height={20} width={100}/>
-      </ButtonWrap>
-    </SkeletonDiv>
   </SkeletonWrap>
 )
 export default BookSkeleton;

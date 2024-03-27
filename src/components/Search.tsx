@@ -76,7 +76,7 @@ background: #f8f3ed;
 padding: 20px 0;
 
 @media screen and (max-width: 598px){
-padding: 60px 0;
+margin: 80px 0;
 }
 `
 const BookWrap = styled.div`

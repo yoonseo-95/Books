@@ -33,3 +33,7 @@ export interface PickBooks {
   pubdate: string;
   publisher: string;
 }
+
+export interface BookData {
+  book:Book;
+}
