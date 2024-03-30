@@ -13,6 +13,7 @@ interface BookData {
 
 const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) => {
 
+
   const formattedAuthors = book.author.split('^').join(', ');
 
   return (
@@ -39,8 +40,7 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
       }
 
       <BookButtonUl>
-        {
-          book.discount > "0" ? (
+        {book.discount > "0" ? (
             <>
               <BookButton>
                 <BookButtonLink href={book.link} target="_blank">
@@ -78,16 +78,27 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
   );
 }));
 
+  
+  
 export default BookItem;
 
 const BookLi = styled.li`
 width: 200px;
 transition: 0.5s;
 @media screen and (max-width: 1024px) and (min-width:768px){
-  width: 180px;
+  width: 11.3rem;
 }
 @media screen and (max-width: 768px) and (min-width:425px){
-  width: 167px;
+  width: 10.4rem;
+}
+@media screen and (max-width: 425px) and (min-width:375px){
+  width: 11.4rem;
+}
+@media screen and (max-width: 375px) and (min-width:320px){
+  width: 9.8rem;
+}
+@media screen and (max-width: 320px){
+  width: 8.1rem;
 }
 `
 const BookDiv = styled.div`
@@ -95,10 +106,15 @@ background: #F8F8F8;
 height: 240px;
 display: flex;
 align-items: center;
-justify-content: center;
 text-align: center;
 @media screen and (max-width: 768px) and (min-width:425px){
   height: 200px;
+}
+@media screen and (max-width: 375px) and (min-width:320px){
+  height: 199px;
+}
+@media screen and (max-width: 320px){
+  height: 165px;
 }
 `
 const BookA = styled(Link)`
@@ -162,7 +178,7 @@ font-weight: bold;
 font-family: 'Nanum Gothic', sans-serif;
 font-size: 20px;
 margin-bottom: 10px;
-color: #b3b3b3;
+color: #cdcdcd;
 
 @media screen and (max-width: 768px) and (min-width:425px){
   font-size: 17px;
@@ -170,14 +186,32 @@ color: #b3b3b3;
 `
 const BookButtonUl = styled.ul`
 display: flex;
-gap: 10px;
+gap: 4px;
 align-items: center;
 font-weight: bold;
+
+@media screen and (max-width: 375px) and (min-width:320px){
+  flex-direction: column;
+}
 `
 const BookButtonLink = styled.a`
 display: block;
 width: 100%;
 height: 100%;
+`
+const BookIconsWrap = styled.li`
+width: 454px;
+@media screen and (max-width: 375px) and (min-width:320px){
+width: 9.8rem;
+}
+@media screen and (max-width: 320px){
+  width: 8.1rem;
+}
+`
+const BookIconsUl = styled.ul`
+display: flex;
+gap: 4px;
+
 `
 const BookButton = styled.li`
 padding: 5px;
@@ -237,8 +271,8 @@ cursor:pointer;
 `
 const OutBookBtn = styled.li`
 padding: 5px;
-border: 2px solid #b9b9b9;
-color: #b9b9b9;
+border: 2px solid #cdcdcd;
+color: #cdcdcd;
 font-size: 13px;
 text-align: center;
 border-radius: 5px;

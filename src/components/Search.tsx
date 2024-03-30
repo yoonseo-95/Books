@@ -14,8 +14,8 @@ const Search:React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const query = new URLSearchParams(location.search).get('query') || '';
-
   const { data, isLoading, isError, hasMore, pageNumber} = useSelector((state) => state.books);
+
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastBookElementRef = useCallback(
@@ -47,21 +47,18 @@ const Search:React.FC = () => {
         <BookWrap>
           {!isLoading && isError && <p>검색 중 오류가 발생했습니다.</p>}
           {data && data.length === 0 && <Length><Icon><TbBookOff /></Icon>검색한 책이 없습니다.</Length>}
-
           <BookUl>
-            {data.map((book, index) => {
-              if(data.length === index) {
-                return (
-                  <Length key={index}>
-                    <Icon><TbBookOff /></Icon>더 이상 콘텐츠가 없습니다.
-                </Length>
-                )
-              }else {
-                return <BookItem key={index} ref={lastBookElementRef} book={book}/>
-              }
-            })}
+            {data.map((book, index) => (
+              <BookItem key={index} ref={lastBookElementRef} book={book}/>
+            ))}
+            {isLoading  &&(
+              [...Array(6)].map((_, skeletonIndex) => (
+                <ListItem key={skeletonIndex}>
+                  <BookSkeleton />
+                </ListItem>
+              ))
+            )}
           </BookUl>
-          {isLoading && <BookSkeleton />}
         </BookWrap>
 
     </SectionWrap>
@@ -94,7 +91,6 @@ gap: 36px;
 flex-wrap: wrap;
 @media screen and (max-width: 1024px){
   gap: 20px;
-  justify-content: center;
 }
 `
 const Length = styled.p`
@@ -108,4 +104,25 @@ const Icon = styled.span`
 font-size: 35px;
 color: #888;
 margin-bottom: 20px;
+`
+const ListItem = styled.li`
+width: 200px;
+display: flex;
+flex-wrap: wrap;
+margin-bottom: 36px;
+@media screen and (max-width: 1024px){
+  width: 180px;
+}
+@media screen and (max-width: 768px){
+  width: 167px;
+}
+@media screen and (max-width: 425px){
+  width: 182px;
+}
+@media screen and (max-width: 375px){
+  width: 157px;
+}
+@media screen and (max-width: 320px){
+  width: 130px;
+}
 `
