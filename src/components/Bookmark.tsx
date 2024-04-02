@@ -1,12 +1,14 @@
 import React from 'react'
 import { useSelector } from '../redux/hooks';
-import { styled } from 'styled-components';
+import { styled, keyframes } from 'styled-components';
 import { FiEdit3 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { removeBookmark } from '../redux/reducers/bookmarkSlice';
 import { useDispatch } from '../redux/hooks';
 import { formatNumber, formatPubDate, formattedAuthors } from './utils/formatUtils';
 import { FaExclamationCircle } from "react-icons/fa";
+import CartButton from './Modal/CartButton';
+import BookReviewBtn from './Modal/BookReviewBtn';
 
 
 export default function Bookmark(){
@@ -57,9 +59,7 @@ export default function Bookmark(){
                       구매하기
                     </BookButtonLink>
                   </BookButton>
-                  <BookButton>
-                    장바구니
-                  </BookButton>
+                  <CartButton book={item} />
                 </>
               ): item.price > "0" ? (
                 <>
@@ -85,7 +85,7 @@ export default function Bookmark(){
             }
             <BookButton onClick={() => handleRemoveClick(item.title)}>찜 삭제</BookButton>
             <IConLink to='/' >
-              <StyledIcon2 />
+              <StyledIcon2 aria-label='리뷰 아이콘'/>
             </IConLink>
           </ButtonUL>
         </BookmarkLi>
@@ -242,7 +242,6 @@ border-radius: 5px;
 transition: 0.5s;
 cursor:pointer;
 justify-content: center;
-margin-bottom: 5px;
 
 @media screen and (max-width: 1024px) and (min-width:768px){
   font-size: 14px;
@@ -303,6 +302,9 @@ height: 100%;
 const ButtonUL = styled.ul`
 width: 100px;
 
+li {
+  margin-bottom: 5px;
+}
 @media screen and (max-width: 768px){
   width: 100%;
   display: flex;

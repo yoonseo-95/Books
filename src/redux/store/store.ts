@@ -5,6 +5,7 @@ import mainBooksSlice from './../reducers/mainBooksSlice';
 import rcmdBooksSlice from '../reducers/rcmdBooksSlice';
 import bookmarkSlice from '../reducers/bookmarkSlice';
 import bookCartSlice from '../reducers/bookCartSlice';
+import bookReviewSlice from '../reducers/bookReviewSlice';
 
 const preloadedState = loadFromLocalStorage();
 
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   rcmdBooks: rcmdBooksSlice,
   bookmark: bookmarkSlice,
   cart: bookCartSlice,
+  review: bookReviewSlice
 });
 
 export const store = configureStore({

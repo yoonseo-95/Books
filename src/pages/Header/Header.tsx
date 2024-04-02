@@ -30,8 +30,8 @@ export default function Header() {
     <HeaderWrap>
       <HeaderWrapper>
         <HeaderLogo>
-          <HeaderLink to="/" onClick={() => setSearchValue("")}>
-            books
+          <HeaderLink to="/" onClick={() => setSearchValue("")} aria-label="책 로고이미지">
+            <span>books</span>
           </HeaderLink>
         </HeaderLogo>
         <HeaderSearchForm onSubmit={handleSearchSubmit}>
@@ -40,14 +40,14 @@ export default function Header() {
         <HeaderUl>
           <HeaderLI>
             <BookmarkDiv $show={bookmark.length > 0}>{bookmark.length}</BookmarkDiv>
-            <HeaderIcons to="/bookmark"><FiHeart  /></HeaderIcons>
+            <HeaderIcons to="/bookmark"><FiHeart  aria-label="북마크 링크"/></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
             <CartSpan $show={cart.length > 0}>{cart.length}</CartSpan>
-            <HeaderIcons to="/cart"><FiShoppingBag /></HeaderIcons>
+            <HeaderIcons to="/cart"><FiShoppingBag aria-label="장바구니 링크"/></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
-          <HeaderIcons to="/"><FiEdit3 /></HeaderIcons>
+          <HeaderIcons to="/"><FiEdit3 aria-label="리뷰 링크"/></HeaderIcons>
           </HeaderLI>
         </HeaderUl>
       </HeaderWrapper>

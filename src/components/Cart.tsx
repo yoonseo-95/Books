@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from '../redux/hooks';
 import { styled } from 'styled-components';
 import { removeCart } from '../redux/reducers/bookCartSlice';
 import { Link } from 'react-router-dom';
-import BookmarkBtn from "./BookmarkBtn";
+import BookmarkBtn from "./Modal/BookmarkBtn";
 import { FiEdit3 } from "react-icons/fi";
 import { formatNumber, formatPubDate, formattedAuthors } from './utils/formatUtils';
 import { FaExclamationCircle } from "react-icons/fa";
@@ -104,7 +104,7 @@ const Cart:React.FC = () => {
             }
             <Icons>
               <BookmarkBtn book={item} />
-              <IConLink to='/' >
+              <IConLink to='/' aria-label='리뷰 아이콘'>
                 <StyledIcon2 />
               </IConLink>
             </Icons>
@@ -349,6 +349,10 @@ width: 100px;
 } 
 @media screen and (max-width: 320px){
   gap: 10px;
+}
+
+li {
+  margin-bottom: 10px;
 }
 `
 const StyledIcon2 = styled(FiEdit3)`

@@ -3154,6 +3154,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/uuid@npm:^9.0.8":
+  version: 9.0.8
+  resolution: "@types/uuid@npm:9.0.8"
+  checksum: 10c0/b411b93054cb1d4361919579ef3508a1f12bf15b5fdd97337d3d351bece6c921b52b6daeef89b62340fd73fd60da407878432a1af777f40648cbe53a01723489
+  languageName: node
+  linkType: hard
+
 "@types/ws@npm:^8.5.5":
   version: 8.5.10
   resolution: "@types/ws@npm:8.5.10"
@@ -4312,6 +4319,7 @@ __metadata:
     "@types/node": "npm:^16.18.91"
     "@types/react": "npm:^18.2.67"
     "@types/react-dom": "npm:^18.2.22"
+    "@types/uuid": "npm:^9.0.8"
     axios: "npm:^1.6.8"
     dotenv: "npm:^16.4.5"
     eslint-config-prettier: "npm:^9.1.0"

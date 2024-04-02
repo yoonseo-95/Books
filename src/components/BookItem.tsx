@@ -3,9 +3,10 @@ import { Book } from './../types/index';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FiEdit3 } from "react-icons/fi";
-import CartButton from './CartButton';
-import BookmarkBtn from './BookmarkBtn';
+import CartButton from './Modal/CartButton';
+import BookmarkBtn from './Modal/BookmarkBtn';
 import { formatNumber, formatPubDate } from './utils/formatUtils';
+import BookReviewBtn from './Modal/BookReviewBtn';
 
 interface BookData {
   book:Book;
@@ -61,18 +62,20 @@ const BookItem = React.memo(forwardRef<HTMLLIElement, BookData>(({ book }, ref) 
           ) : (
             <>
               <OutBookBtn>
-                <span>구매하기</span>
+                구매하기
               </OutBookBtn>
-              <CartButton book={book}/>
+              <OutBookBtn>
+                장바구니
+              </OutBookBtn>
             </>
           )
         }
         <BookmarkIcon>
-          <BookmarkBtn book={book} />
+          <BookmarkBtn aria-label='북마크하기' book={book} />
         </BookmarkIcon>
-        <BookButton>
-          <StyledIcon2 />
-        </BookButton>
+        <BookReviewIcon>
+          <BookReviewBtn aria-label='리뷰쓰기' book={book}/>
+        </BookReviewIcon>
       </BookButtonUl>
     </BookLi>
   );
@@ -199,20 +202,6 @@ display: block;
 width: 100%;
 height: 100%;
 `
-const BookIconsWrap = styled.li`
-width: 454px;
-@media screen and (max-width: 375px) and (min-width:320px){
-width: 9.8rem;
-}
-@media screen and (max-width: 320px){
-  width: 8.1rem;
-}
-`
-const BookIconsUl = styled.ul`
-display: flex;
-gap: 4px;
-
-`
 const BookButton = styled.li`
 padding: 5px;
 border: 2px solid #979797;
@@ -269,6 +258,29 @@ cursor:pointer;
   color: #fff;
 }
 `
+const BookReviewIcon = styled.li`
+padding: 5px;
+height: 42px;
+padding-top: 9px;
+font-size: 20px;
+border: 2px solid #979797;
+color: #979797;
+text-align: center;
+border-radius: 5px;
+transition: 0.5s;
+cursor:pointer;
+overflow: hidden;
+@media screen and (max-width: 768px) and (min-width:425px){
+  height: 38px;
+  padding-top: 7px;
+}
+
+&:hover {
+  background: #0F0E0E;
+  border: 2px solid #0F0E0E;
+  color: #fff;
+}
+`
 const OutBookBtn = styled.li`
 padding: 5px;
 border: 2px solid #cdcdcd;
@@ -293,13 +305,4 @@ cursor:pointer;
 }
 
 `
-const StyledIcon2 = styled(FiEdit3)`
-display: flex;
-justify-content: center;
-height: 23px;
-padding-top: 4px;
 
-path {
-  stroke-width: 2.6px;
-}
-`

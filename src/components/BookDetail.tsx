@@ -2,11 +2,12 @@ import React from 'react'
 import { useSelector, useDispatch} from '../redux/hooks';
 import { Link, useParams } from 'react-router-dom';
 import { styled, keyframes } from 'styled-components';
-import { FiEdit3 } from "react-icons/fi";
-import BookmarkBtn from './BookmarkBtn';
+import BookmarkBtn from './Modal/BookmarkBtn';
 import { formatNumber, formatPubDate } from './utils/formatUtils';
 import { BsCartPlusFill } from "react-icons/bs";
 import { addCart } from '../redux/reducers/bookCartSlice';
+import BookReview from './Modal/BookReview';
+import BookReviewBtn from './Modal/BookReviewBtn';
 
 export default function BookDetail() {
   const {title = ""} = useParams<{title:string}>();
@@ -40,6 +41,7 @@ export default function BookDetail() {
       dispatch(addCart(book))
     }
   }
+
   return (
     <DetailSection>
       <DetailImg>
@@ -59,46 +61,65 @@ export default function BookDetail() {
           ) : book.price > "0" ? (
             <Price>{formatNumber(book.price)} <span>원</span></Price>
           ) : (
-            <Price><span>SOLD OUT</span></Price>
+            <Price><SoldOutSpan>SOLD OUT</SoldOutSpan></Price>
           )
         }
         <IconUL>
           {
             book.discount > "0" ? (
-              <IconLi>
-                <Link to={book.link} target="_blank">
-                  구매하러 가기
-                </Link>
-              </IconLi>
+              <>
+                <IconLi>
+                  <Link to={book.link} target="_blank">
+                    구매하러 가기
+                  </Link>
+                </IconLi>
+                {isCart && (
+                  <BookModal>
+                    <span><BsCartPlusFill /></span>
+                    <p>장바구니에 추가되었습니다.</p>
+                  </BookModal>
+                  )
+                }
+
+                <BookButton onClick={handleAddCart}>
+                  장바구니
+                </BookButton>
+              </>
             ):book.price > "0"  ? (
-              <IconLi>
-                <Link to={book.link} target="_blank">
-                  구매하러 가기
-                </Link>
-              </IconLi>
+              <>
+                <IconLi>
+                  <Link to={book.link} target="_blank">
+                    구매하러 가기
+                  </Link>
+                </IconLi>
+                {isCart && (
+                  <BookModal>
+                    <span><BsCartPlusFill /></span>
+                    <p>장바구니에 추가되었습니다.</p>
+                  </BookModal>
+                  )
+                }
+
+                <BookButton onClick={handleAddCart}>
+                  장바구니
+                </BookButton>
+              </>
             ): (
-              <OutLi>
-                구매하러 가기
-              </OutLi>
+              <>
+                <OutLi>
+                  구매하러 가기
+                </OutLi>
+                <OutLi>
+                  장바구니
+                </OutLi>
+              </>
             )
           }
-          {isCart && (
-            <BookModal>
-              <span><BsCartPlusFill /></span>
-              <p>장바구니에 추가되었습니다.</p>
-            </BookModal>
-            )
-          }
-          <BookButton onClick={handleAddCart}>
-            장바구니
-          </BookButton>
           <Icons>
             <BookmarkBtn book={book} />
           </Icons>
           <Icons>
-            <Link to='/' >
-              <FiEdit3 />
-            </Link>
+            <BookReviewBtn book={book} />
           </Icons>
         </IconUL>
       </div>
@@ -225,7 +246,7 @@ const DetailTxt = styled.div`
 display: flex;
 margin: 20px 0;
 p {
-  width: 112px;
+  width: 135px;
   color: #888;
   font-size: 13px;
 }
@@ -268,12 +289,7 @@ const Icons = styled.li`
 width: 25px;
 font-size: 20px;
 cursor:pointer;
-
-a {
-  display: block;
-  margin-top: 5px;
-}
-
+display: flex;
 `
 const IconLi = styled.li`
 width: 150px;
@@ -315,6 +331,9 @@ margin-top: 20px;
 text-align: center;
 }
 `
+const SoldOutSpan = styled.span`
+color: #b8b8b8;
+`
 const BookButton = styled.li`
 width: 150px;
 height: 30px;
@@ -330,7 +349,7 @@ cursor: pointer;
 
 &:hover {
   background: #0F0E0E;
-  border: 2px solid #0F0E0E;
+  border: 1px solid #0F0E0E;
   color: #fff;
 }
 `
