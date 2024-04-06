@@ -52,4 +52,5 @@ export interface ReviewData {
   textarea: string;
   nickname: string;
   password: string;
+  date: string;
 }

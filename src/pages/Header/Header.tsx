@@ -25,6 +25,7 @@ export default function Header() {
   }
   const bookmark = useSelector((state) => state.bookmark.bookmark);
   const cart = useSelector((state) => state.cart.cart);
+  const review = useSelector((state) => state.review.review);
 
   return (
     <HeaderWrap>
@@ -47,7 +48,8 @@ export default function Header() {
             <HeaderIcons to="/cart"><FiShoppingBag aria-label="장바구니 링크"/></HeaderIcons>
           </HeaderLI>
           <HeaderLI>
-          <HeaderIcons to="/"><FiEdit3 aria-label="리뷰 링크"/></HeaderIcons>
+            <ReviewSpan $show={review.length > 0}>{review.length}</ReviewSpan>
+            <HeaderIcons to="/review"><FiEdit3 aria-label="리뷰 링크"/></HeaderIcons>
           </HeaderLI>
         </HeaderUl>
       </HeaderWrapper>
@@ -158,7 +160,6 @@ outline: none;
   font-size: 16px;
 }
 `
-//북마크
 const BookmarkDiv = styled.div<BookmarkDivProps>`
 width: 12px;
 height: 12px;
@@ -175,6 +176,21 @@ line-height: 13px;
 display: ${props => props.$show ? 'block' : 'none'};
 `
 const CartSpan = styled.span<CartProps>`
+width: 14px;
+height: 14px;
+border-radius: 100%;
+background: #ff1818;
+position: absolute;
+top: 7px;
+left: 4px;
+overflow: hidden;
+color: #fff;
+text-align:center;
+font-size: 9px;
+line-height: 13px;
+display: ${props => props.$show ? 'block' : 'none'};
+`
+const ReviewSpan = styled.span<CartProps>`
 width: 14px;
 height: 14px;
 border-radius: 100%;

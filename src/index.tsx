@@ -11,6 +11,7 @@ import { store } from './redux/store/store';
 import BookDetail from './components/BookDetail';
 import Bookmark from './components/Bookmark';
 import Cart from './components/Cart';
+import Review from './components/Review';
 
 
 const root = ReactDOM.createRoot(
@@ -29,6 +30,7 @@ root.render(
             <Route path="/detail/:title" element={<BookDetail />} />
             <Route path="/bookmark" element={<Bookmark />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/review" element={<Review />} />
           </Route>
         </Routes>
       </BrowserRouter>

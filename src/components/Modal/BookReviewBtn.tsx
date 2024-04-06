@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { useDispatch, useSelector } from '../../redux/hooks';
+import { useDispatch, useSelector} from '../../redux/hooks';
 import { BookData } from '../../types';
 import { keyframes, styled } from 'styled-components';
 import { CgClose } from "react-icons/cg";
@@ -9,12 +9,13 @@ import { FaStar } from 'react-icons/fa';
 import {addReview} from "../../redux/reducers/bookReviewSlice";
 import { ReviewData } from '../../types/index';
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { BiListCheck } from "react-icons/bi";
 
 
 const BookReviewBtn:React.FC<BookData> = ({book}) => {
   const dispatch = useDispatch();
-  const review = useSelector((state) => state.review.review);
-  const isReviewed = review.some(b => b.title === book.title);
+
+  const isReviewed = useSelector((state) => state.review.isReviewed);
   const [showReviewModal, setShowReviewModal] = useState(false);
 
   const outSectionRef = useRef(null);
@@ -32,22 +33,29 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
   const [textareaValue, setTextareaValue] = useState('');
   const [seePassword, setSeePassword] = useState(false);
 
+  const [showReviewedMsg, setShowReviewedMsg] = useState(false);
+
   const seePasswordHandler = () => {
     setSeePassword(!seePassword)
   }
 
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getFullYear()}.${currentDate.getMonth() + 1}.${currentDate.getDate()}`
+
   const handleAddReview = () => {
-    if(isReviewed) {
-      const newReview:ReviewData = {
-        ...book,
-        score,
-        textarea: textareaValue,
-        nickname: nickName,
-        password: password,
-      }
-      alert("리뷰 작성 완료했어요!")
-      dispatch(addReview(newReview))
+    const newReview:ReviewData = {
+      ...book,
+      score,
+      textarea: textareaValue,
+      nickname: nickName,
+      password: password,
+      date: formattedDate,
     }
+    console.log(newReview)
+    dispatch(addReview(newReview))
+    setShowReviewedMsg(true);
+
+    window.location.reload();
   }
 
   return (
@@ -60,10 +68,11 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
               setShowReviewModal(false)
             }
           }}>
-
           </ReviewOutSection>
+
           <ReviewWrap>
-            {isReviewed && <p>추가되었어요</p>}
+            {isReviewed && showReviewedMsg && <ReviewedP> <ReviewedIcon />등록을 완료했어요</ReviewedP>}
+
             <ReviewIconsUl>
               <li onClick={() => setShowReviewModal(false)}><ReviewCloseIcon aria-label="취소하기" /></li>
               <li onClick={handleAddReview}>완료</li>
@@ -107,7 +116,7 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
               <label htmlFor="name">닉네임</label>
               <input type="text" 
                 id="name" 
-                placeholder="닉네임을 입력하세요" 
+                placeholder="닉네임 입력" 
                 value={nickName}
                 autoComplete="off"
                 onChange={(e) => setNickname(e.target.value)}
@@ -116,7 +125,7 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
               <input
                 type={seePassword ? "text" : "password"}
                 id="password" 
-                placeholder="비밀번호를 입력하세요"
+                placeholder="비밀번호 입력"
                 value={password}
                 autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
@@ -131,7 +140,6 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
               autoComplete="off"
               onChange={(e) => setTextareaValue(e.target.value)}
             />
-
           </ReviewWrap>
         </>
       )}
@@ -141,12 +149,22 @@ const BookReviewBtn:React.FC<BookData> = ({book}) => {
 
 export default BookReviewBtn;
 
+const ReviewedP = styled.p`
+font-size: 15px;
+display: flex;
+color: #ff4242;
+justify-content: center;
+align-items: center;
+font-weight: bold;
+`
+const ReviewedIcon = styled(BiListCheck)`
+font-size: 26px;
+color: #ff4242;
+width: 35px;
+`
+
 const slideIn = keyframes`
-0{
-  visibility: hidden;
-  top: 150%;
-}
-40%{
+50%{
   visibility: hidden;
   top: 150%;
 }
@@ -312,7 +330,7 @@ label {
   width: 60px;
   color: #000;
   font-weight: normal;
-
+  
   &:nth-of-type(2) {
     width: 78px;
   }
@@ -324,8 +342,7 @@ input{
   padding: 5px;
   font-size: 16px;
   border-radius: 5px;
-  padding-right: 25px;
-
+  
   &::placeholder {
     color: #d5d5d5;
   }
@@ -337,33 +354,46 @@ input{
   }
 }
 @media screen and (max-width: 375px) and (min-width:320px){
+  gap: 12px;
   input {
     width: 135px;
   }
 }
 @media screen and (max-width: 320px){
-  gap: 4px;
-
+  gap: 12px;
+  flex-wrap: wrap;
   label {
     font-size: 15px;
   }
   input {
     font-size: 14px;
-    width: 110px;
+    width: 100%;
   }
 }
 `
 const SeePasswordIcon = styled(IoMdEyeOff)`
 position: absolute;
-top: 5px;
-right: 6px;
-width: 16px;
-color: #717171;
+top: 4px;
+right: 10px;
+width: 17px;
+font-size: 22px;
+color: #aeaeae;
+@media screen and (max-width: 320px){
+  top: 101px;
+  right: 16px;
+}
+
 `
 const NoSeePasswordIcon = styled(IoMdEye)`
 position: absolute;
-top: 5px;
-right: 6px;
-width: 16px;
-color: #717171;
+top: 4px;
+right: 10px;
+width: 17px;
+font-size: 22px;
+color: #aeaeae;
+
+@media screen and (max-width: 320px){
+  top: 101px;
+  right: 16px;
+}
 `
