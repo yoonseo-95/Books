@@ -31,7 +31,7 @@ export default function Header() {
     <HeaderWrap>
       <HeaderWrapper>
         <HeaderLogo>
-          <HeaderLink to="/" onClick={() => setSearchValue("")} aria-label="책 로고이미지">
+          <HeaderLink to="/" onClick={() => setSearchValue("")}>
             <span>books</span>
           </HeaderLink>
         </HeaderLogo>
@@ -84,8 +84,12 @@ const HeaderLogo = styled.h1`
 font-size: 1px;
 display: block;
 width: 137px;
+text-indent: -9999px;
 @media screen and (max-width: 768px){
   width: 7rem;
+}
+@media screen and (max-width: 320px){
+  width: 6.3rem;
 }
 `
 const HeaderLink = styled(Link)`
@@ -96,6 +100,9 @@ background: url(${logo}) center center /95% no-repeat;
 
 @media screen and (max-width: 768px){
   width: 7rem;
+}
+@media screen and (max-width: 320px){
+  width: 6.3rem;
 }
 `
 const HeaderUl = styled.ul`
